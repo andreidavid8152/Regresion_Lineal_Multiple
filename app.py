@@ -2,6 +2,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
+from sklearn.metrics import mean_absolute_error, r2_score
 
 # 2. Cargar el dataset
 dataset = pd.read_csv("data/app_usage_dataset.csv")
@@ -18,9 +19,6 @@ features = [
 X = dataset[features]
 y = dataset["Daily_App_Usage_Minutes"].values
 
-# Mostrar X antes de codificar
-print("Datos originales (X antes de codificación):\n", dataset[features].head(), "\n")
-
 # 4. Codificación de variable categórica 'App_Type'
 from sklearn.compose import ColumnTransformer
 from sklearn.preprocessing import OneHotEncoder
@@ -31,7 +29,6 @@ ct = ColumnTransformer(
 )
 
 X = np.array(ct.fit_transform(X))
-print("Primeras filas de X (tras codificación):\n", X[:5], "\n")
 
 # 5. División del dataset en entrenamiento y prueba
 from sklearn.model_selection import train_test_split
@@ -50,7 +47,6 @@ y_pred = regressor.predict(X_test)
 # 8. Comparar predicciones con valores reales
 np.set_printoptions(precision=2)
 resultados = np.concatenate((y_pred.reshape(-1, 1), y_test.reshape(-1, 1)), axis=1)
-print("Predicciones vs Valores Reales:\n", resultados, "\n")
 
 # 9. Visualización
 plt.figure(figsize=(10, 6))
@@ -62,3 +58,23 @@ plt.ylabel("Daily_App_Usage_Minutes")
 plt.legend()
 plt.grid()
 plt.show()
+
+# ----- ANALISIS -----
+
+# Métricas
+r2 = r2_score(y_test, y_pred)
+mae = mean_absolute_error(y_test, y_pred)
+media_uso_diario = np.mean(y_test)
+mae_porcentaje = (mae / media_uso_diario) * 100
+
+# Interpretación
+print(f"""
+
+      MODELO DE REGRESION MULTIPLE
+
+      En este modelo se han considerado diversas variables relacionadas con el uso de aplicaciones móviles, tales como el tiempo total de pantalla, el nivel de adicción, la frecuencia de notificaciones y el tipo de aplicación, para entender su influencia sobre los minutos de uso diario (Daily App Usage Minutes).
+
+      El coeficiente de determinación (r²) obtenido es de {r2:.4f}, lo que indica que el modelo explica aproximadamente el {r2 * 100:.1f}% de la variabilidad observada en el uso diario de aplicaciones. El error absoluto medio (MAE) registrado fue de {mae:.2f} minutos, reflejando una desviación promedio del {mae_porcentaje:.2f}% respecto a los valores reales de uso diario.
+
+      Estos resultados sugieren que, si bien el modelo logra capturar una porción considerable de la variabilidad, existe aún margen de error atribuible a otros factores no incluidos en el análisis actual.
+""")
