@@ -1,0 +1,7 @@
+MODELO DE REGRESION MULTIPLE
+
+En este modelo se han considerado diversas variables relacionadas con el uso de aplicaciones móviles, tales como el tiempo total de pantalla, el nivel de adicción, la frecuencia de notificaciones y el tipo de aplicación, para entender su influencia sobre los minutos de uso diario (Daily App Usage Minutes).
+
+El coeficiente de determinación (r²) obtenido es de 0.8437, lo que indica que el modelo explica aproximadamente el 84.4% de la variabilidad observada en el uso diario de aplicaciones. El error absoluto medio (MAE) registrado fue de 10.97 minutos, reflejando una desviación promedio del 6.62% respecto a los valores reales de uso diario.
+
+Estos resultados sugieren que, si bien el modelo logra capturar una porción considerable de la variabilidad, existe aún margen de error atribuible a otros factores no incluidos en el análisis actual.
